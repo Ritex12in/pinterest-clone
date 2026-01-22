@@ -24,4 +24,28 @@ class PexelsRemoteDataSource {
     final List photos = response.data['photos'];
     return photos.map((e) => PexelsPhoto.fromJson(e)).toList();
   }
+
+  Future<List<PexelsPhoto>> searchPhotos({
+    required String query,
+    int page = 1,
+  }) async {
+    final response = await dio.get(
+      "https://api.pexels.com/v1/search",
+      queryParameters: {
+        "query": query,
+        "page": page,
+        "per_page": 20,
+      },
+      options: Options(
+        headers: {
+          "Authorization": PEXELS_API_KEY,
+        },
+      ),
+    );
+
+    final List photos = response.data['photos'];
+    return photos.map((e) => PexelsPhoto.fromJson(e)).toList();
+  }
+
+
 }

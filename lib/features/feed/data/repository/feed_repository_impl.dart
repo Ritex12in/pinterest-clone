@@ -11,4 +11,10 @@ class FeedRepositoryImpl implements FeedRepository {
   Future<List<PexelsPhoto>> getFeed(int page) {
     return remote.getCuratedPhotos(page);
   }
+
+  @override
+  Future<List<PexelsPhoto>> search(String query, int page) {
+    return remote.searchPhotos(query: query, page: page);
+  }
+
 }

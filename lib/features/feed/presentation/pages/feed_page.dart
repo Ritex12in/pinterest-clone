@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import '../controller/feed_controller.dart';
 
@@ -86,11 +87,19 @@ class _FeedGrid extends ConsumerWidget {
             itemCount: photos.length,
             itemBuilder: (context, index) {
               final photo = photos[index];
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: CachedNetworkImage(
-                  imageUrl: photo.imageUrl,
-                  fit: BoxFit.cover,
+              return GestureDetector(
+                onTap: () {
+                  context.push('/pin/${photo.id}', extra: photo);
+                },
+                child: Hero(
+                  tag: 'pin_${photo.id}',
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: CachedNetworkImage(
+                      imageUrl: photo.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               );
             },
