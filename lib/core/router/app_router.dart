@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pinterest_clone/core/router/app_routes.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/feed/data/models/pexels_photo.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
@@ -13,23 +14,23 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   final authStatus = ref.watch(authStatusProvider);
 
   return GoRouter(
-    initialLocation: '/feed',
+    initialLocation: AppRoutes.feed,
     redirect: (context, state) {
-      final isLogin = state.matchedLocation == '/login';
+      final isLogin = state.matchedLocation == AppRoutes.login;
 
       if (authStatus == AuthStatus.signedOut) {
-        return isLogin ? null : '/login';
+        return isLogin ? null : AppRoutes.login;
       }
 
       if (authStatus == AuthStatus.signedIn) {
-        return isLogin ? '/feed' : null;
+        return isLogin ? AppRoutes.feed : null;
       }
 
       return null;
     },
     routes: [
       GoRoute(
-        path: '/login',
+        path: AppRoutes.login,
         builder: (_, __) => const LoginPage(),
       ),
 
@@ -39,22 +40,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
         routes: [
           GoRoute(
-            path: '/feed',
+            path: AppRoutes.feed,
             builder: (_, __) => const FeedPage(),
           ),
           GoRoute(
-            path: '/search',
+            path: AppRoutes.search,
             builder: (_, __) => const SearchPage(),
           ),
           GoRoute(
-            path: '/profile',
+            path: AppRoutes.profile,
             builder: (_, __) => const ProfilePage(),
           ),
         ],
       ),
 
       GoRoute(
-        path: '/pin/:id',
+        path: AppRoutes.pin,
         builder: (context, state) {
           final photo = state.extra as PexelsPhoto;
           return PinDetailPage(photo: photo);

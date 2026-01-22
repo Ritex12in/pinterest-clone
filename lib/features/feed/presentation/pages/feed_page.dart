@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
+import '../../../../core/router/app_routes.dart';
 import '../controller/feed_controller.dart';
 
 class FeedPage extends ConsumerWidget {
@@ -89,7 +90,7 @@ class _FeedGrid extends ConsumerWidget {
               final photo = photos[index];
               return GestureDetector(
                 onTap: () {
-                  context.push('/pin/${photo.id}', extra: photo);
+                  context.push(AppRoutes.pinDetail(photo.id), extra: photo);
                 },
                 child: Hero(
                   tag: 'pin_${photo.id}',

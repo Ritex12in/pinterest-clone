@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/helper.dart';
 import '../../../feed/data/models/pexels_photo.dart';
 import '../controller/related_feed_controller.dart';
@@ -259,7 +260,7 @@ class _RelatedGrid extends ConsumerWidget {
               final photo = photos[index];
               return GestureDetector(
                 onTap: () {
-                  context.push('/pin/${photo.id}', extra: photo);
+                  context.push(AppRoutes.pinDetail(photo.id), extra: photo);
                 },
                 child: Hero(
                   tag: 'pin_${photo.id}',

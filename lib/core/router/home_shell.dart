@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pinterest_clone/core/router/app_routes.dart';
 
 class HomeShell extends StatelessWidget {
   final Widget child;
@@ -8,8 +9,8 @@ class HomeShell extends StatelessWidget {
 
   int _indexFromLocation(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
-    if (location.startsWith('/search')) return 1;
-    if (location.startsWith('/profile')) return 2;
+    if (location.startsWith(AppRoutes.search)) return 1;
+    if (location.startsWith(AppRoutes.profile)) return 2;
     return 0;
   }
 
@@ -22,9 +23,9 @@ class HomeShell extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (index) {
-          if (index == 0) context.go('/feed');
-          if (index == 1) context.go('/search');
-          if (index == 2) context.go('/profile');
+          if (index == 0) context.go(AppRoutes.feed);
+          if (index == 1) context.go(AppRoutes.search);
+          if (index == 2) context.go(AppRoutes.profile);
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
