@@ -4,7 +4,7 @@ import 'package:clerk_flutter/clerk_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
-import 'core/constants/clerk_keys.dart';
+import 'core/constants/api_keys.dart';
 import 'core/router/app_router.dart';
 
 enum AuthStatus { signedIn, signedOut }

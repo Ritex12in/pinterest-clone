@@ -1,1 +1,0 @@
-const CLERK_PUBLISHABLE_KEY = "pk_test_c291bmQtbGl6YXJkLTEyLmNsZXJrLmFjY291bnRzLmRldiQ";

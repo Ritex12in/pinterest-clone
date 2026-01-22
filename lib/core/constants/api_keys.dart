@@ -1,0 +1,2 @@
+const CLERK_PUBLISHABLE_KEY = "pk_test_c291bmQtbGl6YXJkLTEyLmNsZXJrLmFjY291bnRzLmRldiQ";
+const String PEXELS_API_KEY = "fIhXS2tdrOTEkqNpL2g6OO4Cc3I8bsnZbjaE1Z1mqJwvyV8PN8A0wAXC";
