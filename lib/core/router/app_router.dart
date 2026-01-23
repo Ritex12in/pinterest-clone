@@ -15,19 +15,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     initialLocation: AppRoutes.feed,
-    redirect: (context, state) {
-      final isLogin = state.matchedLocation == AppRoutes.login;
-
-      if (authStatus == AuthStatus.signedOut) {
-        return isLogin ? null : AppRoutes.login;
-      }
-
-      if (authStatus == AuthStatus.signedIn) {
-        return isLogin ? AppRoutes.feed : null;
-      }
-
-      return null;
-    },
+    // redirect: (context, state) {
+    //   final isLogin = state.matchedLocation == AppRoutes.login;
+    //
+    //   if (authStatus == AuthStatus.signedOut) {
+    //     return isLogin ? null : AppRoutes.login;
+    //   }
+    //
+    //   if (authStatus == AuthStatus.signedIn) {
+    //     return isLogin ? AppRoutes.feed : null;
+    //   }
+    //
+    //   return null;
+    // },
     routes: [
       GoRoute(
         path: AppRoutes.login,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -25,6 +27,8 @@ class FeedController extends StateNotifier<AsyncValue<List<PexelsPhoto>>> {
   }
 
   Future<void> loadInitial() async {
+    _page = Random().nextInt(50) + 1;
+
     try {
       final photos = await repo.getFeed(_page);
       state = AsyncData(photos);
@@ -44,4 +48,16 @@ class FeedController extends StateNotifier<AsyncValue<List<PexelsPhoto>>> {
     state = AsyncData([...current, ...more]);
     _isLoadingMore = false;
   }
+
+  Future<void> refresh() async {
+    _page = Random().nextInt(50) + 1;
+
+    try {
+      final photos = await repo.getFeed(_page);
+      state = AsyncData(photos);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
+  }
+
 }
