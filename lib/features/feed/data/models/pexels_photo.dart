@@ -5,6 +5,7 @@ class PexelsPhoto {
   final String imageUrl;
   final String alt;
   final String avgColor;
+  final String author;
 
   PexelsPhoto({
     required this.id,
@@ -13,6 +14,7 @@ class PexelsPhoto {
     required this.imageUrl,
     required this.alt,
     required this.avgColor,
+    required this.author,
   });
 
   factory PexelsPhoto.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class PexelsPhoto {
       imageUrl: json['src']['medium'],
       alt: json['alt'] ?? '',
       avgColor: json['avg_color'] ?? '#CCCCCC',
+      author: json['photographer'] ?? '',
     );
   }
 }

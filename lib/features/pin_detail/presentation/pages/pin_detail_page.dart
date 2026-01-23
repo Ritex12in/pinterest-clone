@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/router/app_routes.dart';
 import '../../../../core/utils/helper.dart';
+import '../../../../core/widgets/pin_image.dart';
 import '../../../feed/data/models/pexels_photo.dart';
 import '../controller/related_feed_controller.dart';
 
 class PinDetailPage extends StatelessWidget {
   final PexelsPhoto photo;
 
-  const PinDetailPage({
-    super.key,
-    required this.photo,
-  });
+  const PinDetailPage({super.key, required this.photo});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +25,7 @@ class PinDetailPage extends StatelessWidget {
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24),
                       child: Hero(
@@ -45,10 +40,13 @@ class PinDetailPage extends StatelessWidget {
                             Positioned(
                               bottom: 12,
                               right: 12,
-                              child: _CircleButton(
+                              child: CircleButton(
                                 icon: Icons.search,
                                 onTap: () {
-                                  _openRelatedBottomSheet(context, relatedQuery);
+                                  _openRelatedBottomSheet(
+                                    context,
+                                    relatedQuery,
+                                  );
                                 },
                               ),
                             ),
@@ -60,8 +58,10 @@ class PinDetailPage extends StatelessWidget {
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     child: Row(
                       children: [
                         _IconText(Icons.favorite_border, "95"),
@@ -80,8 +80,10 @@ class PinDetailPage extends StatelessWidget {
 
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -113,9 +115,7 @@ class PinDetailPage extends StatelessWidget {
                   ),
                 ),
 
-                SliverToBoxAdapter(
-                  child: _RelatedGrid(query: relatedQuery),
-                ),
+                SliverToBoxAdapter(child: _RelatedGrid(query: relatedQuery)),
               ],
             ),
 
@@ -123,10 +123,10 @@ class PinDetailPage extends StatelessWidget {
               top: 8,
               left: 16,
               child: FloatingActionButton(
-                  onPressed: () => Navigator.pop(context),
-                  backgroundColor: Colors.white70.withValues(alpha: 0.5),
+                onPressed: () => Navigator.pop(context),
+                backgroundColor: Colors.white70.withValues(alpha: 0.5),
                 elevation: 0,
-                child: Icon(Icons.arrow_back_ios, color: Colors.black,),
+                child: Icon(Icons.arrow_back_ios, color: Colors.black),
               ),
             ),
           ],
@@ -145,7 +145,6 @@ class PinDetailPage extends StatelessWidget {
       },
     );
   }
-
 }
 
 class _IconText extends StatelessWidget {
@@ -172,7 +171,9 @@ class _SaveButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       ),
       onPressed: () {},
@@ -184,103 +185,106 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
-class _CircleButton extends StatelessWidget {
+class CircleButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _CircleButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const CircleButton({super.key, required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.black.withValues(alpha: 0.6),
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+      ),
       elevation: 6,
       child: InkWell(
-        customBorder: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
+        customBorder: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
         onTap: onTap,
         child: const SizedBox(
           width: 44,
           height: 44,
-          child: Center(
-            child: Icon(Icons.search, color: Colors.white),
-          ),
+          child: Center(child: Icon(Icons.search, color: Colors.white)),
         ),
       ),
     );
   }
 }
 
-class _RelatedGrid extends ConsumerWidget {
+class _RelatedGrid extends ConsumerStatefulWidget {
   final String query;
   final bool scrollable;
 
-  const _RelatedGrid({
-    required this.query,
-    this.scrollable = false,
-  });
+  const _RelatedGrid({required this.query, this.scrollable = false});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final related = ref.watch(relatedFeedProvider(query));
+  ConsumerState<_RelatedGrid> createState() => _RelatedGridState();
+}
+
+class _RelatedGridState extends ConsumerState<_RelatedGrid> {
+  late final ScrollController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+
+    _controller.addListener(() {
+      if (!_controller.hasClients) return;
+
+      final max = _controller.position.maxScrollExtent;
+      final offset = _controller.offset;
+
+      if (offset > max - 300) {
+        ref.read(relatedFeedProvider(widget.query).notifier).loadMore();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final related = ref.watch(relatedFeedProvider(widget.query));
 
     return related.when(
       loading: () => const Padding(
         padding: EdgeInsets.all(16),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (e, _) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(e.toString()),
-      ),
+      error: (e, _) =>
+          Padding(padding: const EdgeInsets.all(16), child: Text(e.toString())),
       data: (photos) {
-        return NotificationListener<ScrollNotification>(
-          onNotification: (scroll) {
-            if (scroll.metrics.pixels >
-                scroll.metrics.maxScrollExtent - 300) {
-              ref.read(relatedFeedProvider(query).notifier).loadMore();
-            }
-            return false;
+        return MasonryGridView.count(
+          controller: _controller,
+          padding: const EdgeInsets.all(8),
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          itemCount: photos.length,
+          shrinkWrap: !widget.scrollable,
+          physics: widget.scrollable
+              ? const AlwaysScrollableScrollPhysics()
+              : const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            final photo = photos[index];
+            return PinImage(
+              photo: photo,
+              borderRadius: BorderRadius.circular(16),
+            );
           },
-          child: MasonryGridView.count(
-            padding: const EdgeInsets.all(8),
-            crossAxisCount: 2,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            itemCount: photos.length,
-            shrinkWrap: !scrollable,
-            physics: scrollable
-                ? const AlwaysScrollableScrollPhysics()
-                : const NeverScrollableScrollPhysics(),
-
-            itemBuilder: (context, index) {
-              final photo = photos[index];
-              return GestureDetector(
-                onTap: () {
-                  context.push(AppRoutes.pinDetail(photo.id), extra: photo);
-                },
-                child: Hero(
-                  tag: 'pin_${photo.id}',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: CachedNetworkImage(
-                      imageUrl: photo.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
         );
       },
     );
   }
 }
-
 
 class RelatedBottomSheet extends StatelessWidget {
   final String query;
@@ -325,14 +329,9 @@ class RelatedBottomSheet extends StatelessWidget {
           ),
 
           const SizedBox(height: 12),
-          Expanded(
-            child: _RelatedGrid(query: query, scrollable: true,),
-          ),
+          Expanded(child: _RelatedGrid(query: query, scrollable: true)),
         ],
       ),
     );
   }
 }
-
-
-

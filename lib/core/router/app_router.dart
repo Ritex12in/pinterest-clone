@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinterest_clone/core/router/app_routes.dart';
+import 'package:pinterest_clone/features/search/presentation/pages/search_home_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/feed/data/models/pexels_photo.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
 import '../../features/pin_detail/presentation/pages/pin_detail_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
-import '../../features/search/presentation/pages/search_page.dart';
+import '../../features/search/presentation/pages/search_input_page.dart';
+import '../../features/search/presentation/pages/search_results_page.dart';
 import '../../main.dart';
 import 'home_shell.dart';
 
@@ -45,7 +47,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: AppRoutes.search,
-            builder: (_, __) => const SearchPage(),
+            builder: (_, __) => const SearchHomePage(),
           ),
           GoRoute(
             path: AppRoutes.profile,
@@ -61,6 +63,23 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return PinDetailPage(photo: photo);
         },
       ),
+
+      GoRoute(
+        path: AppRoutes.searchFeed,
+        builder: (context, state) {
+          final query = state.pathParameters['query']!;
+          return SearchResultsPage(query: query);
+        },
+      ),
+
+      GoRoute(
+        path: '/search-input',
+        builder: (context, state) {
+          final initial = state.uri.queryParameters['q'];
+          return SearchInputPage(initialQuery: initial);
+        },
+      ),
+
     ],
   );
 });
