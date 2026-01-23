@@ -5,6 +5,7 @@ import 'package:pinterest_clone/features/search/presentation/pages/search_home_p
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/feed/data/models/pexels_photo.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
+import '../../features/message/presentation/pages/messages_page.dart';
 import '../../features/pin_detail/presentation/pages/pin_detail_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/search/presentation/pages/search_input_page.dart';
@@ -48,6 +49,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.search,
             builder: (_, __) => const SearchHomePage(),
+          ),
+          GoRoute(
+            path: AppRoutes.messages,
+            builder: (context, state) => const MessagesPage(),
           ),
           GoRoute(
             path: AppRoutes.profile,
