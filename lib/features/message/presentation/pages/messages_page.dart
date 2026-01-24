@@ -69,18 +69,19 @@ class _MessagesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
-              Text("Messages", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Spacer(),
-              Text("See all", style: TextStyle(color: Colors.white70)),
-              SizedBox(width: 4),
-              Icon(Icons.chevron_right, size: 18),
+            children: [
+              const Text("Messages", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const Spacer(),
+              Text("See all", style: TextStyle(color: textColor?.withValues(alpha: 0.6))),
+              const SizedBox(width: 4),
+              const Icon(Icons.chevron_right, size: 18),
             ],
           ),
           const SizedBox(height: 16),
@@ -97,13 +98,13 @@ class _MessagesSection extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          const _MessageTile(
+           _MessageTile(
             title: "Find people to message",
             subtitle: "Connect to start chatting",
             trailing: "",
             icon: CircleAvatar(
-              backgroundColor: Colors.white24,
-              child: Icon(Icons.person_add, color: Colors.white),
+              backgroundColor: textColor?.withValues(alpha: 0.2),
+              child: Icon(Icons.person_add),
             ),
           ),
         ],
@@ -127,6 +128,7 @@ class _MessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Row(
       children: [
         icon,
@@ -136,12 +138,12 @@ class _MessageTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(subtitle, style: const TextStyle(color: Colors.white70)),
+              Text(subtitle, style: TextStyle(color: textColor?.withValues(alpha: 0.6))),
             ],
           ),
         ),
         if (trailing.isNotEmpty)
-          Text(trailing, style: const TextStyle(color: Colors.white54)),
+          Text(trailing, style: TextStyle(color: textColor?.withValues(alpha: 0.6))),
       ],
     );
   }
@@ -162,6 +164,7 @@ class _UpdateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Row(
@@ -189,7 +192,7 @@ class _UpdateTile extends StatelessWidget {
               children: [
                 Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 4),
-                Text(time, style: const TextStyle(color: Colors.white54, fontSize: 12)),
+                Text(time, style: TextStyle(color: textColor?.withValues(alpha: 0.6), fontSize: 12)),
               ],
             ),
           ),

@@ -15,9 +15,8 @@ class PinDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final relatedQuery = buildRelatedQuery(photo);
-
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
@@ -40,7 +39,7 @@ class PinDetailPage extends StatelessWidget {
                             Positioned(
                               bottom: 12,
                               right: 12,
-                              child: CircleButton(
+                              child: _CircleButton(
                                 icon: Icons.search,
                                 onTap: () {
                                   _openRelatedBottomSheet(
@@ -68,9 +67,9 @@ class PinDetailPage extends StatelessWidget {
                         const SizedBox(width: 16),
                         _IconText(Icons.chat_bubble_outline, "5"),
                         const SizedBox(width: 16),
-                        const Icon(Icons.share_outlined, color: Colors.white),
+                        const Icon(Icons.share_outlined),
                         const SizedBox(width: 16),
-                        const Icon(Icons.more_horiz, color: Colors.white),
+                        const Icon(Icons.more_horiz),
                         const Spacer(),
                         _SaveButton(),
                       ],
@@ -89,12 +88,12 @@ class PinDetailPage extends StatelessWidget {
                       children: [
                         const Text(
                           "😮😮👍👍👍👍👍 ...",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
+                          style: TextStyle(fontSize: 18),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
+                         Text(
                           "View all comments",
-                          style: TextStyle(color: Colors.white70),
+                          style: TextStyle(color: textColor?.withValues(alpha: 0.6)),
                         ),
                       ],
                     ),
@@ -107,7 +106,6 @@ class PinDetailPage extends StatelessWidget {
                     child: Text(
                       "More to explore",
                       style: TextStyle(
-                        color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -124,7 +122,7 @@ class PinDetailPage extends StatelessWidget {
               left: 16,
               child: FloatingActionButton(
                 onPressed: () => Navigator.pop(context),
-                backgroundColor: Colors.white70.withValues(alpha: 0.5),
+                backgroundColor: Colors.white.withValues(alpha: 0.6),
                 elevation: 0,
                 child: Icon(Icons.arrow_back_ios, color: Colors.black),
               ),
@@ -157,9 +155,9 @@ class _IconText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, color: Colors.white),
+        Icon(icon),
         const SizedBox(width: 4),
-        Text(text, style: const TextStyle(color: Colors.white)),
+        Text(text),
       ],
     );
   }
@@ -172,7 +170,7 @@ class _SaveButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       ),
@@ -185,29 +183,31 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
-class CircleButton extends StatelessWidget {
+class _CircleButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const CircleButton({super.key, required this.icon, required this.onTap});
+  const _CircleButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
+    final bg = Theme.of(context).scaffoldBackgroundColor;
     return Material(
-      color: Colors.black.withValues(alpha: 0.6),
+      color: bg,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       elevation: 6,
       child: InkWell(
         customBorder: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         onTap: onTap,
-        child: const SizedBox(
-          width: 44,
-          height: 44,
-          child: Center(child: Icon(Icons.search, color: Colors.white)),
+        child: SizedBox(
+          width: 56,
+          height: 56,
+          child: Center(child: Icon(Icons.search, color: textColor)),
         ),
       ),
     );

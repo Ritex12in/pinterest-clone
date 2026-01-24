@@ -27,10 +27,6 @@ class HomeShell extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
-        backgroundColor: Colors.black,
-
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
 
         onTap: (index) {
           if (index == 0) context.go(AppRoutes.feed);

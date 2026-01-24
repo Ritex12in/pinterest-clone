@@ -64,6 +64,7 @@ class _ProfileHeaderTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(appUserProvider);
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     if (user == null) {
       return const SizedBox.shrink();
     }
@@ -83,9 +84,9 @@ class _ProfileHeaderTile extends ConsumerWidget {
         user.name,
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
-      subtitle: const Text(
+      subtitle: Text(
         "View profile",
-        style: TextStyle(color: Colors.white54),
+        style: TextStyle(color: textColor?.withValues(alpha: 0.6)),
       ),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {

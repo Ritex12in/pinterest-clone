@@ -10,10 +10,7 @@ import '../controller/search_results_controller.dart';
 class SearchResultsPage extends ConsumerWidget {
   final String query;
 
-  const SearchResultsPage({
-    super.key,
-    required this.query,
-  });
+  const SearchResultsPage({super.key, required this.query});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,11 +38,11 @@ class SearchResultsPage extends ConsumerWidget {
 
                       if (index == photos.length - 6) {
                         ref
-                            .read(searchResultsControllerProvider(query)
-                            .notifier)
+                            .read(
+                              searchResultsControllerProvider(query).notifier,
+                            )
                             .loadMore();
                       }
-
                       return PinImage(
                         photo: photo,
                         borderRadius: BorderRadius.circular(16),
@@ -88,6 +85,7 @@ class _SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: GestureDetector(
@@ -97,18 +95,18 @@ class _SearchBar extends StatelessWidget {
         child: Container(
           height: 52,
           decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.85),
+            color: textColor?.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              const Icon(Icons.search, color: Colors.white70),
+              const Icon(Icons.search),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   query,
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -120,5 +118,3 @@ class _SearchBar extends StatelessWidget {
     );
   }
 }
-
-

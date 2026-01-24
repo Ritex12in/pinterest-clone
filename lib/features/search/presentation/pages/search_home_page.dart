@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pinterest_clone/features/search/presentation/widgets/featured_carousel.dart';
 
 import '../../../../core/router/app_routes.dart';
-import '../../../pin_detail/presentation/pages/pin_detail_page.dart';
 import '../controller/search_home_controller.dart';
 
 class SearchHomePage extends ConsumerWidget {
@@ -65,6 +64,8 @@ class _SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bg = Theme.of(context).scaffoldBackgroundColor;
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: GestureDetector(
@@ -74,20 +75,20 @@ class _SearchBar extends StatelessWidget {
         child: Container(
           height: 52,
           decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.85),
+            color: bg.withValues(alpha: 0.85),
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
-            children: const [
-              Icon(Icons.search, color: Colors.white70),
+            children: [
+              Icon(Icons.search, color: textColor?.withValues(alpha: 0.6)),
               SizedBox(width: 12),
               Text(
                 "Search for ideas",
-                style: TextStyle(color: Colors.white70, fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
               Spacer(),
-              Icon(Icons.camera_alt_outlined, color: Colors.white70),
+              Icon(Icons.camera_alt_outlined, color: textColor?.withValues(alpha: 0.6)),
             ],
           ),
         ),
@@ -125,12 +126,13 @@ class _SearchSectionCard extends StatelessWidget {
                   ),
                 ),
               ),
-              CircleButton(
+              _CircleButton(
                 icon: Icons.search,
                 onTap: onTap,
               ),
             ],
           ),
+          const SizedBox(height: 8),
           GestureDetector(
             onTap: onTap,
             child: AspectRatio(
@@ -158,6 +160,35 @@ class _SearchSectionCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CircleButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _CircleButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
+    return Material(
+      color: textColor?.withValues(alpha: 0.15),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      child: InkWell(
+        customBorder: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        onTap: onTap,
+        child: SizedBox(
+          width: 36,
+          height: 36,
+          child: Center(child: Icon(Icons.search, color: textColor)),
+        ),
       ),
     );
   }

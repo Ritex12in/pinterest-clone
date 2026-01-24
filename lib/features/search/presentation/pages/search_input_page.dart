@@ -49,7 +49,8 @@ class _SearchInputPageState extends State<SearchInputPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cardColor = Colors.grey.shade900;
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
+    final cardColor = textColor?.withValues(alpha: 0.15);
 
     return Scaffold(
       body: SafeArea(
@@ -133,16 +134,17 @@ class _SquareIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return SizedBox(
       height: 52,
       width: 52,
       child: Material(
-        color: Colors.grey.shade900,
+        color: textColor?.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           onTap: onTap,
-          child: Icon(icon, color: Colors.white),
+          child: Icon(icon),
         ),
       ),
     );
@@ -160,14 +162,15 @@ class _SuggestionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return InkWell(
-      borderRadius: BorderRadius.circular(999),
+      borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.grey.shade900,
-          borderRadius: BorderRadius.circular(999),
+          color: textColor?.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Text(
           text,

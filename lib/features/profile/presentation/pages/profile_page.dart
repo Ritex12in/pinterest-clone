@@ -96,13 +96,19 @@ class _ProfileTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TabBar(
-      indicatorColor: Colors.white,
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
+    return TabBar(
+      indicatorColor: textColor,
       dividerColor: Colors.transparent,
       dividerHeight: 0,
       labelStyle: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
+        color: textColor
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 16,
+        color: textColor?.withValues(alpha: 0.6)
       ),
       tabs: [
         Tab(text: "Pins"),
@@ -118,13 +124,14 @@ class _PinsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.push_pin, size: 100, color: Colors.white24),
+            Icon(Icons.push_pin, size: 100, color: textColor?.withValues(alpha: 0.5)),
             const SizedBox(height: 24),
             const Text(
               "Save what inspires you",
@@ -132,17 +139,18 @@ class _PinsTab extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
-            const Text(
+            Text(
               "Saving Pins is Pinterest’s superpower. Browse Pins, save what you love, find them here to get inspired all over again.",
-              style: TextStyle(color: Colors.white70),
+              style: TextStyle(color: textColor?.withValues(alpha: 0.7)),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
@@ -161,6 +169,7 @@ class _BoardsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -170,15 +179,15 @@ class _BoardsTab extends StatelessWidget {
               child: Container(
                 height: 44,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: Colors.white24),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: textColor!.withValues(alpha: 0.5)),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(Icons.search, color: Colors.white54),
+                    Icon(Icons.search, color: textColor.withValues(alpha: 0.7)),
                     SizedBox(width: 8),
-                    Text("Search your Pins", style: TextStyle(color: Colors.white54)),
+                    Text("Search your Pins", style: TextStyle(color: textColor.withValues(alpha: 0.7))),
                   ],
                 ),
               ),
@@ -192,13 +201,13 @@ class _BoardsTab extends StatelessWidget {
         Container(
           height: 140,
           decoration: BoxDecoration(
-            color: Colors.white12,
+            color: textColor.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(20),
           ),
         ),
         const SizedBox(height: 8),
         const Text("quotes", style: TextStyle(fontSize: 18)),
-        const Text("0 Pins • 5y", style: TextStyle(color: Colors.white54)),
+        Text("0 Pins • 5y", style: TextStyle(color: textColor.withValues(alpha: 0.6))),
       ],
     );
   }
@@ -209,30 +218,32 @@ class _CollagesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.content_cut, size: 120, color: Colors.white24),
+            Icon(Icons.content_cut, size: 120, color: textColor?.withValues(alpha: 0.5)),
             const SizedBox(height: 24),
             const Text(
               "Make your first collage",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            const Text(
+            Text(
               "Snip-and-paste the best parts of your favorite Pins to create something completely new.",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white70),
+              style: TextStyle(color: textColor?.withValues(alpha: 0.7)),
             ),
             const SizedBox(height: 24),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(16),
                 ),
               ),
               onPressed: () {},
