@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pinterest_clone/core/constants/constants.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final updateList = Constants.updateList;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -21,17 +23,15 @@ class MessagesPage extends StatelessWidget {
               ),
             ),
             SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                  return _UpdateTile(
-                    title: "Inspired by you",
-                    time: "18h",
-                    imageUrl: "https://picsum.photos/200",
-                    unread: index % 2 == 0,
-                  );
-                },
-                childCount: 6,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final update = updateList.elementAt(index);
+                return _UpdateTile(
+                  title: update.title,
+                  time: update.time,
+                  imageUrl: update.imageUrl,
+                  unread: update.unread,
+                );
+              }, childCount: 6),
             ),
           ],
         ),
@@ -54,10 +54,7 @@ class _Header extends StatelessWidget {
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
           const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.edit_outlined),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(Icons.edit_outlined), onPressed: () {}),
         ],
       ),
     );
@@ -77,9 +74,15 @@ class _MessagesSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text("Messages", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const Text(
+                "Messages",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
               const Spacer(),
-              Text("See all", style: TextStyle(color: textColor?.withValues(alpha: 0.6))),
+              Text(
+                "See all",
+                style: TextStyle(color: textColor?.withValues(alpha: 0.6)),
+              ),
               const SizedBox(width: 4),
               const Icon(Icons.chevron_right, size: 18),
             ],
@@ -98,7 +101,7 @@ class _MessagesSection extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-           _MessageTile(
+          _MessageTile(
             title: "Find people to message",
             subtitle: "Connect to start chatting",
             trailing: "",
@@ -138,12 +141,18 @@ class _MessageTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(subtitle, style: TextStyle(color: textColor?.withValues(alpha: 0.6))),
+              Text(
+                subtitle,
+                style: TextStyle(color: textColor?.withValues(alpha: 0.6)),
+              ),
             ],
           ),
         ),
         if (trailing.isNotEmpty)
-          Text(trailing, style: TextStyle(color: textColor?.withValues(alpha: 0.6))),
+          Text(
+            trailing,
+            style: TextStyle(color: textColor?.withValues(alpha: 0.6)),
+          ),
       ],
     );
   }
@@ -174,14 +183,19 @@ class _UpdateTile extends StatelessWidget {
             height: 8,
             margin: const EdgeInsets.only(right: 8),
             decoration: BoxDecoration(
-              color: unread?Colors.red:Colors.transparent,
+              color: unread ? Colors.red : Colors.transparent,
               shape: BoxShape.circle,
             ),
           ),
 
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.network(imageUrl, width: 56, height: 56, fit: BoxFit.cover),
+            child: Image.asset(
+              imageUrl,
+              width: 56,
+              height: 56,
+              fit: BoxFit.cover,
+            ),
           ),
 
           const SizedBox(width: 12),
@@ -190,20 +204,25 @@ class _UpdateTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(height: 4),
-                Text(time, style: TextStyle(color: textColor?.withValues(alpha: 0.6), fontSize: 12)),
+                Text(
+                  time,
+                  style: TextStyle(
+                    color: textColor?.withValues(alpha: 0.6),
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ),
           ),
 
-          IconButton(
-            icon: const Icon(Icons.more_horiz),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {}),
         ],
       ),
     );
   }
 }
-
