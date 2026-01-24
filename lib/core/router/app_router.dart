@@ -7,6 +7,7 @@ import '../../features/feed/data/models/pexels_photo.dart';
 import '../../features/feed/presentation/pages/feed_page.dart';
 import '../../features/message/presentation/pages/messages_page.dart';
 import '../../features/pin_detail/presentation/pages/pin_detail_page.dart';
+import '../../features/profile/presentation/pages/account_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/search/presentation/pages/search_input_page.dart';
 import '../../features/search/presentation/pages/search_results_page.dart';
@@ -83,6 +84,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final initial = state.uri.queryParameters['q'];
           return SearchInputPage(initialQuery: initial);
         },
+      ),
+
+      GoRoute(
+        path: AppRoutes.account,
+        builder: (_, __) => const AccountPage(),
       ),
 
     ],

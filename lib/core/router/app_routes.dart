@@ -5,6 +5,7 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String pin = '/pin/:id';
   static const messages = '/messages';
+  static const String account = '/account';
 
   static String pinDetail(int id) => '/pin/$id';
   static const String searchFeed = '/search/:query';
