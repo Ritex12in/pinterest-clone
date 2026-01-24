@@ -11,27 +11,12 @@ import '../../features/profile/presentation/pages/account_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/search/presentation/pages/search_input_page.dart';
 import '../../features/search/presentation/pages/search_results_page.dart';
-import '../../main.dart';
 import 'home_shell.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
-  final authStatus = ref.watch(authStatusProvider);
 
   return GoRouter(
     initialLocation: AppRoutes.feed,
-    // redirect: (context, state) {
-    //   final isLogin = state.matchedLocation == AppRoutes.login;
-    //
-    //   if (authStatus == AuthStatus.signedOut) {
-    //     return isLogin ? null : AppRoutes.login;
-    //   }
-    //
-    //   if (authStatus == AuthStatus.signedIn) {
-    //     return isLogin ? AppRoutes.feed : null;
-    //   }
-    //
-    //   return null;
-    // },
     routes: [
       GoRoute(
         path: AppRoutes.login,

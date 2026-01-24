@@ -6,9 +6,22 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: Center(child: ClerkAuthentication()),
+        child: Center(
+          child: ClerkAuthBuilder(
+            signedInBuilder: (context, state) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(context).pop();
+              });
+
+              return const SizedBox.shrink();
+            },
+            signedOutBuilder: (context, state) {
+              return const ClerkAuthentication();
+            },
+          ),
+        ),
       ),
     );
   }

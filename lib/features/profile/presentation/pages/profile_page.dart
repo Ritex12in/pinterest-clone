@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_routes.dart';
+import '../provider/user_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -39,21 +41,49 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class _ProfileHeader extends StatelessWidget {
+class _ProfileHeader extends ConsumerWidget {
   const _ProfileHeader();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(appUserProvider);
+    if(user==null){
+      return Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: ElevatedButton(
+            onPressed: (){
+              context.push(AppRoutes.login);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text('Login')
+        ),
+      );
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: GestureDetector(
         onTap: (){
           context.push(AppRoutes.account);
         },
-        child: const CircleAvatar(
+        child: CircleAvatar(
           radius: 20,
-          backgroundColor: Colors.red,
-          child: Text("R", style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.grey,
+          backgroundImage: user.avatar != null && user.avatar!.isNotEmpty
+              ? NetworkImage(user.avatar!)
+              : null,
+          child: user.avatar == null || user.avatar!.isEmpty
+              ? const Icon(Icons.person)
+              : null,
         ),
       ),
     );

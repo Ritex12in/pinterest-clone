@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:clerk_flutter/clerk_flutter.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
-
 import 'core/constants/api_keys.dart';
 import 'core/router/app_router.dart';
-
-enum AuthStatus { signedIn, signedOut }
-
-final authStatusProvider =
-StateProvider<AuthStatus>((ref) => AuthStatus.signedOut);
+import 'features/profile/domain/model/app_user.dart';
+import 'features/profile/presentation/provider/user_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
   runApp(const ProviderScope(child: Root()));
 }
 
@@ -23,21 +20,21 @@ class Root extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ClerkAuth(
-      config: ClerkAuthConfig(
-        publishableKey: CLERK_PUBLISHABLE_KEY,
-      ),
+      config: ClerkAuthConfig(publishableKey: CLERK_PUBLISHABLE_KEY),
       child: ClerkErrorListener(
         child: ClerkAuthBuilder(
-          signedInBuilder: (context, state) {
-            Future.microtask(() {
-              ref.read(authStatusProvider.notifier).state = AuthStatus.signedIn;
-            });
-            return const MyApp();
-          },
-          signedOutBuilder: (context, state) {
-            Future.microtask(() {
-              ref.read(authStatusProvider.notifier).state = AuthStatus.signedOut;
-            });
+          builder: (context, authState) {
+            final user = authState.user;
+            if (user != null) {
+              Future.microtask((){
+                ref.read(appUserProvider.notifier).state = AppUser(
+                  id: user.id,
+                  name: user.firstName ?? "User",
+                  avatar: user.profileImageUrl,
+                );
+              });
+            }
+            FlutterNativeSplash.remove();
             return const MyApp();
           },
         ),
@@ -57,6 +54,9 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData.light(),
       debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(appRouterProvider),
+      builder: (context, child) {
+        return ClerkErrorListener(child: child ?? const SizedBox.shrink());
+      },
     );
   }
 }

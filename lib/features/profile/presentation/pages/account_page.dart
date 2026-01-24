@@ -1,4 +1,10 @@
+import 'package:clerk_flutter/clerk_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pinterest_clone/core/router/app_routes.dart';
+
+import '../provider/user_provider.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -52,20 +58,29 @@ class AccountPage extends StatelessWidget {
   }
 }
 
-class _ProfileHeaderTile extends StatelessWidget {
+class _ProfileHeaderTile extends ConsumerWidget {
   const _ProfileHeaderTile();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(appUserProvider);
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: const CircleAvatar(
+      leading: CircleAvatar(
         radius: 24,
-        backgroundColor: Colors.red,
-        child: Text("R", style: TextStyle(color: Colors.white, fontSize: 18)),
+        backgroundColor: Colors.grey,
+        backgroundImage: user.avatar != null && user.avatar!.isNotEmpty
+            ? NetworkImage(user.avatar!)
+            : null,
+        child: user.avatar == null || user.avatar!.isEmpty
+            ? const Icon(Icons.person)
+            : null,
       ),
-      title: const Text(
-        "ritesh",
+      title: Text(
+        user.name,
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       subtitle: const Text(
@@ -115,18 +130,24 @@ class _SettingsTile extends StatelessWidget {
   }
 }
 
-class _LogoutTile extends StatelessWidget {
+class _LogoutTile extends ConsumerWidget {
+  const _LogoutTile();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       title: const Text(
         "Log out",
         style: TextStyle(color: Colors.red),
       ),
-      onTap: () {
+      onTap: () async {
+        final clerk = ClerkAuth.of(context);
+        await clerk.signOut();
+        context.go(AppRoutes.login);
       },
     );
   }
 }
+
 

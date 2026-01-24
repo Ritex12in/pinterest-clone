@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import '../../features/feed/data/models/pexels_photo.dart';
 
 String buildRelatedQuery(PexelsPhoto photo) {
@@ -28,11 +26,3 @@ String buildRelatedQuery(PexelsPhoto photo) {
 
   return words.first;
 }
-
-Color hexToColor(String hex) {
-  final buffer = StringBuffer();
-  if (hex.length == 6 || hex.length == 7) buffer.write('ff');
-  buffer.write(hex.replaceFirst('#', ''));
-  return Color(int.parse(buffer.toString(), radix: 16));
-}
-
