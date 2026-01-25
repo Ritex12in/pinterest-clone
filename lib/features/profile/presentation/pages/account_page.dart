@@ -145,7 +145,7 @@ class _LogoutTile extends ConsumerWidget {
       onTap: () async {
         final clerk = ClerkAuth.of(context);
         await clerk.signOut();
-        context.go(AppRoutes.login);
+        context.push(AppRoutes.login);
       },
     );
   }
