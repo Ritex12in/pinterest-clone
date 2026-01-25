@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinterest_clone/core/router/app_routes.dart';
+import 'package:pinterest_clone/core/widgets/bottom_sheet.dart';
 import 'package:pinterest_clone/core/widgets/nav_icon.dart';
 
 class HomeShell extends StatelessWidget {
@@ -35,7 +36,7 @@ class HomeShell extends StatelessWidget {
         onTap: (index) {
           if (index == 0) context.go(AppRoutes.feed);
           if (index == 1) context.go(AppRoutes.search);
-          if (index == 2) return;
+          if (index == 2) CustomBottomSheet.showCreateBottomSheet(context);
           if (index == 3) context.go(AppRoutes.messages);
           if (index == 4) context.go(AppRoutes.profile);
         },

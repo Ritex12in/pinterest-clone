@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pinterest_clone/features/pin_detail/presentation/widgets.dart';
 import '../../../../core/utils/helper.dart';
 import '../../../../core/widgets/pin_image.dart';
 import '../../../feed/data/models/pexels_photo.dart';
@@ -39,8 +40,7 @@ class PinDetailPage extends StatelessWidget {
                             Positioned(
                               bottom: 12,
                               right: 12,
-                              child: _CircleButton(
-                                icon: Icons.search,
+                              child: AnimatedSearchButton(
                                 onTap: () {
                                   _openRelatedBottomSheet(
                                     context,
@@ -91,9 +91,11 @@ class PinDetailPage extends StatelessWidget {
                           style: TextStyle(fontSize: 18),
                         ),
                         const SizedBox(height: 8),
-                         Text(
+                        Text(
                           "View all comments",
-                          style: TextStyle(color: textColor?.withValues(alpha: 0.6)),
+                          style: TextStyle(
+                            color: textColor?.withValues(alpha: 0.6),
+                          ),
                         ),
                       ],
                     ),
@@ -153,13 +155,7 @@ class _IconText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon),
-        const SizedBox(width: 4),
-        Text(text),
-      ],
-    );
+    return Row(children: [Icon(icon), const SizedBox(width: 4), Text(text)]);
   }
 }
 
@@ -178,37 +174,6 @@ class _SaveButton extends StatelessWidget {
       child: const Text(
         "Save",
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class _CircleButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-
-  const _CircleButton({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
-    final bg = Theme.of(context).scaffoldBackgroundColor;
-    return Material(
-      color: bg,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      elevation: 6,
-      child: InkWell(
-        customBorder: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        onTap: onTap,
-        child: SizedBox(
-          width: 56,
-          height: 56,
-          child: Center(child: Icon(Icons.search, color: textColor)),
-        ),
       ),
     );
   }

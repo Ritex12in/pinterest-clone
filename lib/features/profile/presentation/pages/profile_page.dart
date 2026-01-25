@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pinterest_clone/core/widgets/bottom_sheet.dart';
+import 'package:pinterest_clone/features/search/presentation/widgets/square_icon_button.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../provider/user_provider.dart';
@@ -193,7 +195,14 @@ class _BoardsTab extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            const Icon(Icons.add, size: 28),
+            SquareIconButton(
+                icon: Icons.add,
+                height: 48,
+                width: 48,
+                onTap: () {
+                  CustomBottomSheet.showCreateBottomSheet(context);
+                }
+            ),
           ],
         ),
         const SizedBox(height: 24),

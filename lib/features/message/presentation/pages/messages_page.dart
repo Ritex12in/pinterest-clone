@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinterest_clone/core/constants/constants.dart';
+import 'package:pinterest_clone/core/widgets/bottom_sheet.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({super.key});
@@ -220,7 +221,7 @@ class _UpdateTile extends StatelessWidget {
             ),
           ),
 
-          IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {CustomBottomSheet.showUpdateOptionsSheet(context);}),
         ],
       ),
     );

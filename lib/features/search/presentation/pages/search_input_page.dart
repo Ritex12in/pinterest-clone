@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/router/app_routes.dart';
+import '../widgets/square_icon_button.dart';
 
 class SearchInputPage extends StatefulWidget {
   final String? initialQuery;
@@ -60,7 +61,7 @@ class _SearchInputPageState extends State<SearchInputPage> {
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
-                  _SquareIconButton(
+                  SquareIconButton(
                     icon: Icons.arrow_back,
                     onTap: () => Navigator.pop(context),
                   ),
@@ -91,7 +92,7 @@ class _SearchInputPageState extends State<SearchInputPage> {
 
                   const SizedBox(width: 8),
 
-                  _SquareIconButton(
+                  SquareIconButton(
                     icon: Icons.search,
                     onTap: () => _submit(),
                   ),
@@ -117,34 +118,6 @@ class _SearchInputPageState extends State<SearchInputPage> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SquareIconButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-
-  const _SquareIconButton({
-    required this.icon,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
-    return SizedBox(
-      height: 52,
-      width: 52,
-      child: Material(
-        color: textColor?.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
-          child: Icon(icon),
         ),
       ),
     );
