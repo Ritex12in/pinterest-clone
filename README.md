@@ -4,6 +4,8 @@ This is a Pinterest-like mobile app built using **Flutter** as part of an intern
 
 The app supports **browsing without login**, and only asks the user to sign in when they try to access restricted features like profile, messages, or saving pins.
 ---
+Demo video: https://drive.google.com/drive/folders/1yOwOgJRrJcggA0WJLzNzXswc-OKouSJm?usp=drive_link
+---
 
 ## ✨ What’s Inside
 
